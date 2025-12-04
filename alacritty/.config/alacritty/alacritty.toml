@@ -1,0 +1,6 @@
+[terminal.shell]
+program = "/bin/zsh"
+args = ["-l"]
+
+[font]
+size = 8
