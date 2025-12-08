@@ -28,7 +28,7 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always feh --bg-fill ~/Pictures/Wallpapers/julia-bidun-8xWgao4Y-rI-unsplash.jpg
 
 bindsym $mod+space exec rofi -show combi
-bindsym $mod+b exec org.mozilla.firefox
+bindsym $mod+b exec firefox
 bindsym $mod+e exec thunar
 
 bindsym $mod+Ctrl+l exec --no-startup-id ~/.config/scripts/lock
