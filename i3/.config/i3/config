@@ -9,6 +9,39 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# --- Retro brown/orange palette ---
+set $base      #1a120d
+set $mantle    #23180f
+set $crust     #120a05
+
+set $text      #f3e6d0
+set $subtext0  #d9c9ad
+set $subtext1  #bfae94
+
+set $surface0  #3a2a1d
+set $surface1  #4a3525
+set $surface2  #5a4030
+
+set $overlay0  #6b4f3a
+
+set $primary   #c7772e
+set $peach     #e08b3a
+set $yellow    #d6a84a
+set $red       #b14b2f
+
+set $active_bg   #5a4030
+set $inactive_bg #120a05
+set $inactive_br #23180f
+
+client.focused          $primary      $active_bg   $text     $peach     $primary
+client.focused_inactive $inactive_br  $inactive_bg $subtext1 $inactive_br $inactive_br
+client.unfocused        $inactive_br  $inactive_bg $subtext1 $inactive_br $inactive_br
+client.urgent           $red          $red         $crust    $yellow    $red
+client.placeholder      $overlay0     $base        $subtext1 $overlay0  $overlay0
+
+client.background       $base
+
+
 set $mod Mod4
 
 # nikchester custom settings:
@@ -25,7 +58,7 @@ exec --no-startup-id /opt/nekoray/nekobox -- -appdata
 exec_always --no-startup-id killall polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
-exec_always feh --bg-fill ~/Pictures/Wallpapers/julia-bidun-8xWgao4Y-rI-unsplash.jpg
+exec_always feh --bg-fill ~/Pictures/Wallpapers/lev-p-pM4jxDEC0tA-unsplash.jpg
 
 bindsym $mod+space exec rofi -show combi
 bindsym $mod+b exec firefox
