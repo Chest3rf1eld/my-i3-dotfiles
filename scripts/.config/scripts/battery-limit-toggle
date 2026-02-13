@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BAT="${1:-BAT0}"
+LIMIT_ON=80
+LIMIT_OFF=100
+
+# читаем текущий stop threshold (если доступен)
+cur_stop=""
+if [ -r "/sys/class/power_supply/${BAT}/charge_control_end_threshold" ]; then
+  cur_stop="$(cat "/sys/class/power_supply/${BAT}/charge_control_end_threshold")"
+fi
+
+if [ "${cur_stop}" = "${LIMIT_ON}" ]; then
+  sudo tlp setcharge 0 "${LIMIT_OFF}" "${BAT}"
+  notify-send "Battery limit" "Charging limit: ${LIMIT_OFF}% (off)"
+else
+  sudo tlp setcharge 0 "${LIMIT_ON}" "${BAT}"
+  notify-send "Battery limit" "Charging limit: ${LIMIT_ON}% (on)"
+fi
+

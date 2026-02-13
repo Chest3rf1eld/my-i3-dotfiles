@@ -55,14 +55,14 @@ exec_always --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinp
 
 exec --no-startup-id /opt/nekoray/nekobox -- -appdata
 
-exec_always --no-startup-id killall polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+#exec --no-startup-id killall polybar
+exec --no-startup-id ~/.config/polybar/launch.sh
 
 exec_always feh --bg-fill ~/Pictures/Wallpapers/lev-p-pM4jxDEC0tA-unsplash.jpg
 
 bindsym $mod+space exec rofi -show combi
 bindsym $mod+b exec firefox
-bindsym $mod+e exec thunar
+bindsym $mod+e exec nautilus
 
 bindsym $mod+Ctrl+l exec --no-startup-id ~/.config/scripts/lock
 
@@ -95,11 +95,9 @@ bindsym Shift+Print exec --no-startup-id flameshot gui
 
 exec --no-startup-id blueman-applet
 
-exec --no-startup-d xrandr --output eDP-1 --mode 1920x1080 --output DP-2  --mode 1920x1080 --same-as eDP-1
+bindsym $mod+v exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard
 
-
-
-
+bindsym $mod+Shift+b exec --no-startup-id /home/nikchester/dotfiles/scripts/.config/scripts/battery-limit-toggle
 
 
 
@@ -184,7 +182,7 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+#bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -280,3 +278,13 @@ bindsym $mod+r mode "resize"
 #bar {
 #        status_command i3status
 #}
+
+
+
+
+
+
+# чтобы сервисы systemd --user видели X11 (DISPLAY) и могли показывать окна
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP DESKTOP_SESSION
+exec --no-startup-id systemctl --user import-environment DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP DESKTOP_SESSION
+
