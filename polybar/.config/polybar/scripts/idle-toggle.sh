@@ -42,9 +42,9 @@ stop_inhibit() {
 
 print_status() {
   if is_running; then
-    printf '󰅶\n'
+    printf '%%{T2}󰅶%%{T-}\n'
   else
-    printf '󰒲\n'
+    printf '%%{T2}󰒲%%{T-}\n'
   fi
 }
 
