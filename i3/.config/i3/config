@@ -58,11 +58,11 @@ exec --no-startup-id /opt/nekoray/nekobox -- -appdata
 #exec --no-startup-id killall polybar
 exec --no-startup-id ~/.config/polybar/launch.sh
 
-exec_always feh --bg-fill ~/Pictures/Wallpapers/lev-p-pM4jxDEC0tA-unsplash.jpg
+exec_always feh --bg-fill /home/nikchester/Pictures/Wallpapers/lev-p-BbgB4W7LdzU-unsplash.jpg
 
 bindsym $mod+space exec rofi -show combi
 bindsym $mod+b exec firefox
-bindsym $mod+e exec nautilus
+bindsym $mod+e exec thunar
 
 bindsym $mod+Ctrl+l exec --no-startup-id ~/.config/scripts/lock
 

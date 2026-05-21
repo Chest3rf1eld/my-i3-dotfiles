@@ -2,8 +2,13 @@
 
 set -eu
 
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH:-}"
+export PATH
+
 uid="$(id -u)"
-pid_file="/tmp/polybar-idle-inhibit-${uid}.pid"
+runtime_dir="${XDG_RUNTIME_DIR:-/tmp}"
+[ -d "$runtime_dir" ] && [ -w "$runtime_dir" ] || runtime_dir="/tmp"
+pid_file="${runtime_dir}/polybar-idle-inhibit-${uid}.pid"
 
 is_xss_lock_running() {
   pgrep -u "$uid" -x xss-lock >/dev/null 2>&1
@@ -14,7 +19,13 @@ is_inhibit_running() {
 
   pid="$(cat "$pid_file" 2>/dev/null || true)"
   [ -n "$pid" ] || return 1
-  kill -0 "$pid" 2>/dev/null
+
+  if kill -0 "$pid" 2>/dev/null; then
+    return 0
+  fi
+
+  rm -f "$pid_file"
+  return 1
 }
 
 set_display_awake() {
@@ -33,6 +44,11 @@ restore_display_idle() {
 
 coffee_mode_on() {
   if ! is_inhibit_running; then
+    if ! command -v systemd-inhibit >/dev/null 2>&1; then
+      printf 'idle-toggle: systemd-inhibit not found\n' >&2
+      return 1
+    fi
+
     (
       exec systemd-inhibit \
         --what=idle:sleep \
@@ -43,6 +59,12 @@ coffee_mode_on() {
     ) >/dev/null 2>&1 &
 
     echo "$!" > "$pid_file"
+    sleep 0.1
+
+    if ! is_inhibit_running; then
+      printf 'idle-toggle: failed to start systemd-inhibit\n' >&2
+      return 1
+    fi
   fi
 
   if is_xss_lock_running; then
