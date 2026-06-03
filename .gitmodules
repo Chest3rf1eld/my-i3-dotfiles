@@ -1,12 +1,16 @@
 [submodule "tmux/.config/tmux/plugins/tpm"]
 	path = tmux/.config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+	ignore = dirty
 [submodule "tmux/.config/tmux/plugins/tmux-resurrect"]
 	path = tmux/.config/tmux/plugins/tmux-resurrect
 	url = https://github.com/tmux-plugins/tmux-resurrect
+	ignore = dirty
 [submodule "tmux/.config/tmux/plugins/tmux-continuum"]
 	path = tmux/.config/tmux/plugins/tmux-continuum
 	url = https://github.com/tmux-plugins/tmux-continuum
+	ignore = dirty
 [submodule "tmux/.config/tmux/plugins/tmux-gruvbox"]
 	path = tmux/.config/tmux/plugins/tmux-gruvbox
 	url = https://github.com/egel/tmux-gruvbox
+	ignore = dirty
