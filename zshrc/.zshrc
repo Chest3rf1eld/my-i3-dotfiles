@@ -137,3 +137,6 @@ if [ -f '/home/nikchester/yandex-cloud/completion.zsh.inc' ]; then source '/home
 #export http_proxy="http://127.0.0.1:20171"
 #export https_proxy="http://127.0.0.1:20171"
 #export PATH=$HOME/.local/bin:$PATH
+
+export EDITOR=nvim
+export VISUAL=nvim
