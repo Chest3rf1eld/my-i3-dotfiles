@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+active_window_id="$(xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | awk -F'window id # ' '{print $2}')"
+
+kill_window() {
+  if [ -n "${active_window_id}" ] && [ "${active_window_id}" != "0x0" ]; then
+    i3-msg "[id=\"${active_window_id}\"] kill" >/dev/null || i3-msg kill >/dev/null
+  else
+    i3-msg kill >/dev/null
+  fi
+}
+
+if [ -z "${active_window_id}" ] || [ "${active_window_id}" = "0x0" ]; then
+  kill_window
+  exit 0
+fi
+
+wm_class="$(xprop -id "${active_window_id}" WM_CLASS 2>/dev/null || true)"
+
+if [[ "${wm_class}" == *Alacritty* || "${wm_class}" == *alacritty* ]]; then
+  choice="$(printf 'No\nYes\n' | rofi -dmenu -i -p 'Close Alacritty?' -no-custom -selected-row 0 || true)"
+  if [ "${choice}" = "Yes" ]; then
+    kill_window
+  fi
+else
+  kill_window
+fi
