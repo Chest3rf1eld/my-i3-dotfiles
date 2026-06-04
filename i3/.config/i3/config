@@ -89,7 +89,7 @@ mode "exit" {
 
 bindsym $mod+Shift+q mode "exit"
 
-bindsym Print exec --no-startup-id flameshot full -c
+bindsym Print exec --no-startup-id ~/.config/scripts/screenshot-full-copy-save
 
 bindsym Shift+Print exec --no-startup-id flameshot gui -c
 

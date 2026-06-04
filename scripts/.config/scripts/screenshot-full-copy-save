@@ -1,0 +1,6 @@
+#!/bin/sh
+
+screenshots_dir="$HOME/Pictures/Screenshots"
+
+mkdir -p "$screenshots_dir"
+flameshot full -c -p "$screenshots_dir"
