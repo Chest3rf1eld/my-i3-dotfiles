@@ -141,3 +141,4 @@ if [ -f '/home/nikchester/yandex-cloud/completion.zsh.inc' ]; then source '/home
 export EDITOR=nvim
 export VISUAL=nvim
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$UID}/ssh-agent.socket"
+export PATH="$HOME/.local/bin:$PATH"
