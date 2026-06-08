@@ -142,3 +142,7 @@ export EDITOR=nvim
 export VISUAL=nvim
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$UID}/ssh-agent.socket"
 export PATH="$HOME/.local/bin:$PATH"
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/nikchester
+
