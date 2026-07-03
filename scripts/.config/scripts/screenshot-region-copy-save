@@ -1,0 +1,10 @@
+#!/bin/sh
+# Region-select screenshot: save to file + copy to clipboard (X11, no portal/daemon).
+
+screenshots_dir="$HOME/Pictures/Screenshots"
+mkdir -p "$screenshots_dir"
+
+file="$screenshots_dir/$(date +%Y-%m-%d_%H-%M-%S).png"
+
+# maim -s uses slop for interactive region selection; aborts cleanly on Escape.
+maim -s "$file" && xclip -selection clipboard -t image/png -i "$file"

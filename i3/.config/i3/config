@@ -62,6 +62,7 @@ exec_always feh --bg-fill /home/nikchester/Pictures/Wallpapers/lev-p-BbgB4W7LdzU
 
 bindsym $mod+space exec rofi -show combi
 bindsym $mod+b exec firefox
+bindsym $mod+Shift+b exec firefox --new-window about:preferences#connectionSecurity
 bindsym $mod+e exec thunar
 
 bindsym $mod+Ctrl+l exec --no-startup-id ~/.config/scripts/lock
@@ -91,7 +92,7 @@ bindsym $mod+Shift+q mode "exit"
 
 bindsym Print exec --no-startup-id ~/.config/scripts/screenshot-full-copy-save
 
-bindsym Shift+Print exec --no-startup-id flameshot gui -c
+bindsym Shift+Print exec --no-startup-id ~/.config/scripts/screenshot-region-copy-save
 
 exec --no-startup-id blueman-applet
 
@@ -253,20 +254,18 @@ bindsym $mod+Shift+r restart
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        # Up/Right make the window bigger, Down/Left make it smaller.
+        # Uses width/height so it always works regardless of neighbours.
+        bindsym Up    resize grow   height 10 px or 10 ppt
+        bindsym Down  resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow   width  10 px or 10 ppt
+        bindsym Left  resize shrink width  10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        # same bindings, but for the vim-style keys (j=Left k=Down l=Up ;=Right)
+        bindsym l         resize grow   height 10 px or 10 ppt
+        bindsym k         resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow   width  10 px or 10 ppt
+        bindsym j         resize shrink width  10 px or 10 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
