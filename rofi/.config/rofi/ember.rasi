@@ -1,0 +1,89 @@
+/* Ember — warm graphite launcher */
+* {
+    font: "Cascadia Mono 12";
+    background: #181512;
+    surface: #2b2621;
+    surface-active: #373029;
+    foreground: #eee6da;
+    muted: #a99d8d;
+    accent: #e39a50;
+    urgent: #d66b5d;
+
+    background-color: transparent;
+    text-color: @foreground;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    location: center;
+    width: 620px;
+    border: 2px;
+    border-color: @surface-active;
+    border-radius: 18px;
+    background-color: @background;
+}
+
+mainbox {
+    padding: 16px;
+    spacing: 12px;
+}
+
+inputbar {
+    padding: 12px 16px;
+    spacing: 10px;
+    border-radius: 12px;
+    background-color: @surface;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    placeholder: "Apps, windows, commands…";
+    placeholder-color: @muted;
+}
+
+message {
+    padding: 10px 14px;
+    border-radius: 10px;
+    background-color: @surface;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    fixed-height: false;
+    spacing: 4px;
+}
+
+element {
+    padding: 10px 12px;
+    spacing: 12px;
+    border-radius: 10px;
+}
+
+element selected {
+    background-color: @surface-active;
+    text-color: @foreground;
+}
+
+element selected normal {
+    text-color: @accent;
+}
+
+element normal urgent {
+    text-color: @urgent;
+}
+
+element-icon {
+    size: 24px;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color: inherit;
+}

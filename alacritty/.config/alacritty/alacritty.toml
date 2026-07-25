@@ -2,8 +2,17 @@
 program = "/bin/zsh"
 args = ["-l"]
 
+[window]
+padding = { x = 14, y = 12 }
+dynamic_padding = true
+decorations = "None"
+opacity = 1.0
+
+[scrolling]
+history = 10000
+
 [font]
-size = 9
+size = 10.5
 
 [font.offset]
 x = 1
@@ -24,3 +33,69 @@ style = "Italic"
 [font.bold_italic]
 family = "Cascadia Mono"
 style = "Bold Italic"
+
+[cursor]
+style = { shape = "Beam", blinking = "On" }
+blink_interval = 550
+
+[selection]
+save_to_clipboard = true
+
+[colors.primary]
+background = "#181512"
+foreground = "#e8ded0"
+dim_foreground = "#938778"
+
+[colors.cursor]
+text = "#181512"
+cursor = "#e39a50"
+
+[colors.vi_mode_cursor]
+text = "#181512"
+cursor = "#dfbd6f"
+
+[colors.selection]
+text = "#f4ece2"
+background = "#463c32"
+
+[colors.normal]
+black = "#211d19"
+red = "#cf7163"
+green = "#9eae76"
+yellow = "#d5b568"
+blue = "#7899aa"
+magenta = "#b2879b"
+cyan = "#7ea397"
+white = "#c9bdaf"
+
+[colors.bright]
+black = "#6b5f51"
+red = "#e88979"
+green = "#b5c78b"
+yellow = "#ebca7d"
+blue = "#91b2c3"
+magenta = "#caa0b4"
+cyan = "#96bcaf"
+white = "#f4ece2"
+
+[colors.dim]
+black = "#181512"
+red = "#9d554b"
+green = "#788459"
+yellow = "#a0874e"
+blue = "#5b7480"
+magenta = "#866675"
+cyan = "#5f7b72"
+white = "#938778"
+
+[colors.search.matches]
+foreground = "#181512"
+background = "#dfbd6f"
+
+[colors.search.focused_match]
+foreground = "#181512"
+background = "#e39a50"
+
+[colors.footer_bar]
+foreground = "#e8ded0"
+background = "#2b2621"

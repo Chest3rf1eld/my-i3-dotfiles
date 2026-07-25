@@ -8,8 +8,8 @@ configuration{
     location: 0;
     disable-history: false;
     hide-scrollbar: true;
-    display-combi: " 🖥️  All ";
-    sidebar-mode: true;
+    display-combi: "  Search";
+    sidebar-mode: false;
 }
 
-@theme "squared-nord"
+@theme "ember"

@@ -159,3 +159,13 @@ codex() {
     all_proxy=http://127.0.0.1:10808 \
     command codex "$@"
 }
+
+codex() {
+    HTTP_PROXY=http://127.0.0.1:10808 \
+    HTTPS_PROXY=http://127.0.0.1:10808 \
+    ALL_PROXY=http://127.0.0.1:10808 \
+    http_proxy=http://127.0.0.1:10808 \
+    https_proxy=http://127.0.0.1:10808 \
+    all_proxy=http://127.0.0.1:10808 \
+    command claude "$@"
+}

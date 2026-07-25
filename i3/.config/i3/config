@@ -9,29 +9,29 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-# --- Retro brown/orange palette ---
-set $base      #1a120d
-set $mantle    #23180f
-set $crust     #120a05
+# --- Ember: warm graphite / amber palette ---
+set $base      #181512
+set $mantle    #211d19
+set $crust     #100e0c
 
-set $text      #f3e6d0
-set $subtext0  #d9c9ad
-set $subtext1  #bfae94
+set $text      #eee6da
+set $subtext0  #cfc4b5
+set $subtext1  #a99d8d
 
-set $surface0  #3a2a1d
-set $surface1  #4a3525
-set $surface2  #5a4030
+set $surface0  #2b2621
+set $surface1  #373029
+set $surface2  #463c32
 
-set $overlay0  #6b4f3a
+set $overlay0  #66594a
 
-set $primary   #c7772e
-set $peach     #e08b3a
-set $yellow    #d6a84a
-set $red       #b14b2f
+set $primary   #f0a85b
+set $peach     #f0ad68
+set $yellow    #dfbd6f
+set $red       #d66b5d
 
-set $active_bg   #5a4030
-set $inactive_bg #120a05
-set $inactive_br #23180f
+set $active_bg   #2b2621
+set $inactive_bg #181512
+set $inactive_br #211d19
 
 client.focused          $primary      $active_bg   $text     $peach     $primary
 client.focused_inactive $inactive_br  $inactive_bg $subtext1 $inactive_br $inactive_br
@@ -75,7 +75,13 @@ bindsym $mod+Escape exec --no-startup-id ~/.config/redshift/toogle-redshift.sh
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l blur
 exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.config/scripts/lock
 
-gaps inner 5
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders none
+for_window [class="(?i)Alacritty"] border pixel 2
+gaps inner 10
+gaps outer -5
+smart_gaps off
 
 exec_always --no-startup-id autotiling
 
