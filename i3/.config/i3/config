@@ -58,7 +58,7 @@ exec --no-startup-id ~/.config/polybar/launch.sh
 
 exec --no-startup-id ~/.config/scripts/v2rayn-autostart
 
-exec_always feh --bg-fill /home/nikchester/Pictures/Wallpapers/lev-p-BbgB4W7LdzU-unsplash.jpg
+exec_always --no-startup-id ~/.config/scripts/wallpaper-rotation
 
 bindsym $mod+space exec rofi -show combi
 bindsym $mod+b exec firefox

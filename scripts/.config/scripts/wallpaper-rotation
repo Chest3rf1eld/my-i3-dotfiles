@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -u
+
+wallpaper_dir="${HOME}/Pictures/Wallpapers"
+interval="${1:-900}"
+lock_file="${XDG_RUNTIME_DIR:-/tmp}/wallpaper-rotation-${UID}.lock"
+cache_dir="${XDG_CACHE_HOME:-${HOME}/.cache}/wallpaper-rotation"
+lock_image="${cache_dir}/lock.png"
+
+exec 9>"${lock_file}"
+flock -n 9 || exit 0
+
+mkdir -p "${cache_dir}"
+
+# Обои для i3lock: он умеет только PNG в натуральном размере, поэтому
+# заранее масштабируем текущую картинку под экран (аналог feh --bg-fill).
+render_lock_image() {
+  local src="$1" geometry width height
+
+  geometry="$(xrandr 2>/dev/null | sed -n 's/.*current \([0-9]*\) x \([0-9]*\).*/\1x\2/p')"
+  [[ -n "${geometry}" ]] || return 1
+
+  width="${geometry%x*}"
+  height="${geometry#*x}"
+
+  if ffmpeg -loglevel error -y -i "${src}" \
+      -vf "scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height}" \
+      "${lock_image}.tmp"; then
+    mv -f "${lock_image}.tmp" "${lock_image}"
+  else
+    rm -f "${lock_image}.tmp"
+    return 1
+  fi
+}
+
+while true; do
+  mapfile -d '' wallpapers < <(
+    find "${wallpaper_dir}" -type f \
+      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' \) \
+      -print0 2>/dev/null
+  )
+
+  if ((${#wallpapers[@]} > 0)); then
+    wallpaper="${wallpapers[RANDOM % ${#wallpapers[@]}]}"
+    feh --no-fehbg --bg-fill "${wallpaper}"
+    render_lock_image "${wallpaper}" ||
+      echo "wallpaper-rotation: не удалось подготовить ${lock_image}" >&2
+  else
+    echo "wallpaper-rotation: no images in ${wallpaper_dir}" >&2
+  fi
+
+  # 9<&- — иначе sleep наследует lock-fd и держит блокировку после смерти скрипта
+  sleep "${interval}" 9<&-
+done
