@@ -14,6 +14,8 @@ mkdir -p "${cache_dir}"
 
 # Обои для i3lock: он умеет только PNG в натуральном размере, поэтому
 # заранее масштабируем текущую картинку под экран (аналог feh --bg-fill).
+# eq притемняет только версию для блокировки — на рабочем столе обои как есть.
+# Нужно потому, что обои случайные: на светлых индикатор иначе теряется.
 render_lock_image() {
   local src="$1" geometry width height
 
@@ -23,9 +25,10 @@ render_lock_image() {
   width="${geometry%x*}"
   height="${geometry#*x}"
 
+  # -f/-c:v заданы явно: по расширению .tmp формат не определяется
   if ffmpeg -loglevel error -y -i "${src}" \
-      -vf "scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height}" \
-      "${lock_image}.tmp"; then
+      -vf "scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},eq=brightness=-0.15:saturation=0.9" \
+      -f image2 -c:v png "${lock_image}.tmp"; then
     mv -f "${lock_image}.tmp" "${lock_image}"
   else
     rm -f "${lock_image}.tmp"
