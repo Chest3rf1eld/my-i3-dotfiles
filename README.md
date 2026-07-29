@@ -1,26 +1,26 @@
 # my-i3-dotfiles
 
-Личный конфиг рабочего окружения на i3 (X11). Каждая директория верхнего уровня повторяет структуру `$HOME` (например, `i3/.config/i3/config`), что совместимо с [GNU Stow](https://www.gnu.org/software/stow/) — можно засимлинковать каждый пакет отдельно (`stow alacritty`, `stow i3`, и т.д.) или разложить вручную.
+Personal desktop environment config for i3 (X11). Each top-level directory mirrors the `$HOME` layout (e.g. `i3/.config/i3/config`), making the repo [GNU Stow](https://www.gnu.org/software/stow/)-compatible — symlink each package individually (`stow alacritty`, `stow i3`, etc.) or lay the files out by hand.
 
-## Что внутри
+## What's inside
 
-- **i3** — оконный менеджер, кастомная цветовая схема "Ember" (тёплая графитово-янтарная палитра)
-- **polybar** — статус-бар
-- **picom** — композитор (тени, прозрачность, анимации)
-- **rofi** — лаунчер/меню
-- **alacritty** — терминал
-- **tmux** — мультиплексор терминала, плагины через `tpm` (submodules): `tmux-resurrect`, `tmux-continuum`, `tmux-gruvbox`
+- **i3** — window manager, with a custom "Ember" color scheme (a warm graphite-and-amber palette)
+- **polybar** — status bar
+- **picom** — compositor (shadows, transparency, animations)
+- **rofi** — launcher/menu
+- **alacritty** — terminal
+- **tmux** — terminal multiplexer, plugins loaded via `tpm` (submodules): `tmux-resurrect`, `tmux-continuum`, `tmux-gruvbox`
 - **zshrc** — Oh My Zsh + Powerlevel10k
-- **systemd** — пользовательские unit-файлы
-- **scripts** — вспомогательные утилиты: переключение лимита заряда батареи, блокировка экрана, скриншоты (в буфер/файл), автозапуск v2rayN, ротация обоев
+- **systemd** — user unit files
+- **scripts** — helper utilities: battery charge-limit toggle, screen lock, full-screen and region screenshots (to clipboard and file), v2rayN autostart, wallpaper rotation
 
-## Установка
+## Setup
 
 ```sh
 git clone --recurse-submodules <repo-url>
 cd my-i3-dotfiles
-# через GNU Stow (если установлен):
+# via GNU Stow (if installed):
 stow alacritty i3 picom polybar rofi scripts systemd tmux zshrc
 ```
 
-Нужны установленные i3, polybar, picom, rofi, alacritty, tmux, zsh + oh-my-zsh + powerlevel10k.
+Requires i3, polybar, picom, rofi, alacritty, tmux, and zsh + oh-my-zsh + powerlevel10k to be installed.
