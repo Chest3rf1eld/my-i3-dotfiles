@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -u
+
+# v2rayN (Avalonia) отдаёт иконку трея только через DBus StatusNotifierItem,
+# а трей polybar понимает лишь XEmbed. snixembed мостит одно в другое, и
+# запускать v2rayN раньше моста нельзя — сворачиваться будет некуда.
+
+wait_for() {
+  local i=0
+  while ((i < 100)); do
+    "$@" && return 0
+    ((i++))
+    sleep 0.1
+  done
+  return 1
+}
+
+# polybar владеет XEmbed-селекцией, в которую докается snixembed
+wait_for pgrep -x polybar >/dev/null 2>&1
+sleep 1
+
+pgrep -x snixembed >/dev/null 2>&1 || snixembed --fork
+
+# Avalonia регистрирует иконку, только если watcher уже на шине
+wait_for busctl --user status org.kde.StatusNotifierWatcher >/dev/null 2>&1
+
+# запускаем в любом случае: даже без трея прокси должен подняться
+exec /usr/bin/v2rayn
