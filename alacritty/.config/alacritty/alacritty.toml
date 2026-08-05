@@ -14,24 +14,26 @@ history = 10000
 [font]
 size = 10.5
 
+# x must stay 0: any extra advance widens the cell without widening the glyph,
+# which leaves a 1px unpainted seam at every powerline separator in the tmux bar.
 [font.offset]
-x = 1
+x = 0
 y = 0
 
 [font.normal]
-family = "Cascadia Mono"
+family = "Cascadia Mono NF"
 style = "Regular"
 
 [font.bold]
-family = "Cascadia Mono"
+family = "Cascadia Mono NF"
 style = "Bold"
 
 [font.italic]
-family = "Cascadia Mono"
+family = "Cascadia Mono NF"
 style = "Italic"
 
 [font.bold_italic]
-family = "Cascadia Mono"
+family = "Cascadia Mono NF"
 style = "Bold Italic"
 
 [cursor]

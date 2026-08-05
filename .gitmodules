@@ -10,7 +10,7 @@
 	path = tmux/.config/tmux/plugins/tmux-continuum
 	url = https://github.com/tmux-plugins/tmux-continuum
 	ignore = dirty
-[submodule "tmux/.config/tmux/plugins/tmux-gruvbox"]
-	path = tmux/.config/tmux/plugins/tmux-gruvbox
-	url = https://github.com/egel/tmux-gruvbox
+[submodule "tmux/.config/tmux/plugins/catppuccin"]
+	path = tmux/.config/tmux/plugins/catppuccin
+	url = https://github.com/catppuccin/tmux.git
 	ignore = dirty
