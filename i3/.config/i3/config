@@ -63,6 +63,7 @@ exec_always --no-startup-id ~/.config/scripts/wallpaper-rotation
 bindsym $mod+space exec rofi -show combi
 bindsym $mod+b exec firefox
 bindsym $mod+Shift+b exec firefox --new-window about:preferences#connectionSecurity
+bindsym $mod+c exec --no-startup-id qalculate-gtk
 bindsym $mod+e exec thunar
 
 bindsym $mod+Ctrl+l exec --no-startup-id ~/.config/scripts/lock
