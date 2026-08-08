@@ -71,7 +71,7 @@ bindsym $mod+Ctrl+l exec --no-startup-id ~/.config/scripts/lock
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 
-bindsym $mod+Escape exec --no-startup-id ~/.config/redshift/toogle-redshift.sh
+bindsym $mod+Escape exec --no-startup-id ~/.config/scripts/toggle-redshift
 
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l blur
 exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.config/scripts/lock
