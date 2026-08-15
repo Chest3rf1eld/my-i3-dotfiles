@@ -174,8 +174,13 @@ pi() {
     HTTP_PROXY=http://127.0.0.1:10808 \
     HTTPS_PROXY=http://127.0.0.1:10808 \
     ALL_PROXY=http://127.0.0.1:10808 \
+    WS_PROXY=http://127.0.0.1:10808 \
+    WSS_PROXY=http://127.0.0.1:10808 \
     http_proxy=http://127.0.0.1:10808 \
     https_proxy=http://127.0.0.1:10808 \
     all_proxy=http://127.0.0.1:10808 \
+    ws_proxy=http://127.0.0.1:10808 \
+    wss_proxy=http://127.0.0.1:10808 \
+    NODE_USE_ENV_PROXY=1 \
     command pi "$@"
 }
