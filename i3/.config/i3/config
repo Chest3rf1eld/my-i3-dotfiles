@@ -141,7 +141,7 @@ exec --no-startup-id nm-applet
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/scripts/volume-osd up
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/scripts/volume-osd down
 bindsym XF86AudioMute exec --no-startup-id ~/.config/scripts/volume-osd mute
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
