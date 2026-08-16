@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -u
 
-wallpaper_dir="${HOME}/Pictures/Wallpapers"
+script_path="$(realpath "$0" 2>/dev/null || printf '%s' "$0")"
+script_dir="$(cd "$(dirname "${script_path}")" && pwd)"
+repo_root="$(cd "${script_dir}/../../.." && pwd)"
+repo_wallpaper_dir="${repo_root}/wallpapers/.local/share/wallpapers"
+wallpaper_dir="${WALLPAPER_DIR:-${repo_wallpaper_dir}}"
 interval="${1:-900}"
 lock_file="${XDG_RUNTIME_DIR:-/tmp}/wallpaper-rotation-${UID}.lock"
 cache_dir="${XDG_CACHE_HOME:-${HOME}/.cache}/wallpaper-rotation"
