@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+step="${VOLUME_STEP:-5%}"
+
+case "${1:-}" in
+  up)
+    wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ "${step}+"
+    ;;
+  down)
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ "${step}-"
+    ;;
+  mute)
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    ;;
+  *)
+    printf 'Usage: %s {up|down|mute}\n' "$0" >&2
+    exit 1
+    ;;
+esac
+
+output="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
+
+if [[ "$output" == *"[MUTED]"* ]]; then
+  value=0
+  icon="󰝟"
+  text="Muted"
+else
+  value="$(awk -v v="$(awk '{print $2}' <<<"$output")" 'BEGIN { printf "%d", v * 100 + 0.5 }')"
+  if (( value == 0 )); then
+    icon="󰕿"
+  elif (( value < 50 )); then
+    icon="󰖀"
+  else
+    icon="󰕾"
+  fi
+  text="${value}%"
+fi
+
+dunstify \
+  -a "volume" \
+  -u low \
+  -h string:x-dunst-stack-tag:volume \
+  -h int:value:"$value" \
+  "${icon}  Volume" \
+  "$text"

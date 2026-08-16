@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+step="${BRIGHTNESS_STEP:-5%}"
+
+case "${1:-}" in
+  up)
+    brightnessctl set "+${step}"
+    ;;
+  down)
+    brightnessctl set "${step}-"
+    ;;
+  *)
+    printf 'Usage: %s {up|down}\n' "$0" >&2
+    exit 1
+    ;;
+esac
+
+value="$(brightnessctl -m | awk -F, '{gsub(/%/, "", $4); print $4}')"
+
+if (( value < 34 )); then
+  icon="󰃞"
+elif (( value < 67 )); then
+  icon="󰃟"
+else
+  icon="󰃠"
+fi
+
+dunstify \
+  -a "brightness" \
+  -u low \
+  -h string:x-dunst-stack-tag:brightness \
+  -h int:value:"$value" \
+  "${icon}  Brightness" \
+  "${value}%"
