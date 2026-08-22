@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -u
+
+wallpaper="${1:-}"
+cache_dir="${XDG_CACHE_HOME:-${HOME}/.cache}/wallpaper-rotation"
+lock_image="${cache_dir}/lock.png"
+current_wallpaper_file="${cache_dir}/current-wallpaper"
+transition_hold="${WALLPAPER_TRANSITION_HOLD:-0.12}"
+
+[[ -n "${wallpaper}" ]] || {
+  echo "usage: $(basename "$0") /path/to/wallpaper" >&2
+  exit 1
+}
+
+wallpaper="$(realpath "${wallpaper}" 2>/dev/null || printf '%s' "${wallpaper}")"
+[[ -f "${wallpaper}" ]] || {
+  echo "set-wallpaper: file not found: ${wallpaper}" >&2
+  exit 1
+}
+
+mkdir -p "${cache_dir}"
+
+render_lock_image() {
+  local src="$1" geometry width height
+
+  command -v ffmpeg >/dev/null 2>&1 || return 0
+
+  geometry="$(xrandr 2>/dev/null | sed -n 's/.*current \([0-9]*\) x \([0-9]*\).*/\1x\2/p')"
+  [[ -n "${geometry}" ]] || return 1
+
+  width="${geometry%x*}"
+  height="${geometry#*x}"
+
+  if ffmpeg -loglevel error -y -i "${src}" \
+      -vf "scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},eq=brightness=-0.15:saturation=0.9" \
+      -f image2 -c:v png "${lock_image}.tmp"; then
+    mv -f "${lock_image}.tmp" "${lock_image}"
+  else
+    rm -f "${lock_image}.tmp"
+    return 1
+  fi
+}
+
+show_transition() {
+  local previous="$1" overlay_pid=""
+
+  [[ -n "${DISPLAY:-}" ]] || return 0
+  [[ -f "${previous}" ]] || return 0
+  [[ "${previous}" != "${wallpaper}" ]] || return 0
+  command -v feh >/dev/null 2>&1 || return 0
+  pgrep -x picom >/dev/null 2>&1 || return 0
+
+  feh --fullscreen --borderless --no-menus --hide-pointer \
+    --scale-down --auto-zoom --zoom fill \
+    --title "wallpaper-transition-${$}" "${previous}" >/dev/null 2>&1 &
+  overlay_pid=$!
+
+  ( sleep "${transition_hold}" && kill "${overlay_pid}" 2>/dev/null ) >/dev/null 2>&1 &
+}
+
+if [[ -s "${current_wallpaper_file}" ]]; then
+  previous_wallpaper="$(<"${current_wallpaper_file}")"
+else
+  previous_wallpaper=""
+fi
+
+show_transition "${previous_wallpaper}"
+
+if feh --no-fehbg --bg-fill "${wallpaper}"; then
+  printf '%s\n' "${wallpaper}" > "${current_wallpaper_file}"
+else
+  echo "set-wallpaper: feh failed for ${wallpaper}" >&2
+  exit 1
+fi
+
+render_lock_image "${wallpaper}" ||
+  echo "set-wallpaper: не удалось подготовить ${lock_image}" >&2

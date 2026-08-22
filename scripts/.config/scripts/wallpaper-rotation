@@ -9,37 +9,13 @@ wallpaper_dir="${WALLPAPER_DIR:-${repo_wallpaper_dir}}"
 interval="${1:-900}"
 lock_file="${XDG_RUNTIME_DIR:-/tmp}/wallpaper-rotation-${UID}.lock"
 cache_dir="${XDG_CACHE_HOME:-${HOME}/.cache}/wallpaper-rotation"
-lock_image="${cache_dir}/lock.png"
+set_wallpaper_script="${script_dir}/set-wallpaper"
 parent_pid="${PPID}"
 
 exec 9>"${lock_file}"
 flock -n 9 || exit 0
 
 mkdir -p "${cache_dir}"
-
-# Обои для i3lock: он умеет только PNG в натуральном размере, поэтому
-# заранее масштабируем текущую картинку под экран (аналог feh --bg-fill).
-# eq притемняет только версию для блокировки — на рабочем столе обои как есть.
-# Нужно потому, что обои случайные: на светлых индикатор иначе теряется.
-render_lock_image() {
-  local src="$1" geometry width height
-
-  geometry="$(xrandr 2>/dev/null | sed -n 's/.*current \([0-9]*\) x \([0-9]*\).*/\1x\2/p')"
-  [[ -n "${geometry}" ]] || return 1
-
-  width="${geometry%x*}"
-  height="${geometry#*x}"
-
-  # -f/-c:v заданы явно: по расширению .tmp формат не определяется
-  if ffmpeg -loglevel error -y -i "${src}" \
-      -vf "scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},eq=brightness=-0.15:saturation=0.9" \
-      -f image2 -c:v png "${lock_image}.tmp"; then
-    mv -f "${lock_image}.tmp" "${lock_image}"
-  else
-    rm -f "${lock_image}.tmp"
-    return 1
-  fi
-}
 
 session_sleep() {
   local remaining="$1"
@@ -66,11 +42,9 @@ while true; do
 
   if ((${#wallpapers[@]} > 0)); then
     wallpaper="${wallpapers[RANDOM % ${#wallpapers[@]}]}"
-    if ! feh --no-fehbg --bg-fill "${wallpaper}"; then
-      echo "wallpaper-rotation: feh failed for ${wallpaper}" >&2
+    if ! "${set_wallpaper_script}" "${wallpaper}"; then
+      echo "wallpaper-rotation: не удалось применить ${wallpaper}" >&2
     fi
-    render_lock_image "${wallpaper}" ||
-      echo "wallpaper-rotation: не удалось подготовить ${lock_image}" >&2
   else
     echo "wallpaper-rotation: no images in ${wallpaper_dir}" >&2
   fi
