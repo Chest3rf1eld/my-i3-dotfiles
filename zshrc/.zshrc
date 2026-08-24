@@ -181,6 +181,5 @@ pi() {
     all_proxy=http://127.0.0.1:10808 \
     ws_proxy=http://127.0.0.1:10808 \
     wss_proxy=http://127.0.0.1:10808 \
-    NODE_USE_ENV_PROXY=1 \
     command pi "$@"
 }

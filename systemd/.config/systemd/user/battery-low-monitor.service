@@ -1,0 +1,12 @@
+[Unit]
+Description=Battery low notification monitor
+Documentation=man:notify-send(1)
+
+[Service]
+Type=simple
+ExecStart=%h/.config/scripts/battery-low-monitor
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

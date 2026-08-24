@@ -1,0 +1,87 @@
+#!/usr/bin/env sh
+
+set -eu
+
+threshold="${BATTERY_LOW_THRESHOLD:-15}"
+interval="${BATTERY_CHECK_INTERVAL:-60}"
+state_dir="${XDG_RUNTIME_DIR:-/tmp}"
+state_file="${state_dir}/battery-low-monitor-${UID}.state"
+app_name="battery-low-monitor"
+
+find_battery() {
+  if [ -n "${BATTERY_DEVICE:-}" ] && [ -d "/sys/class/power_supply/${BATTERY_DEVICE}" ]; then
+    printf '%s\n' "/sys/class/power_supply/${BATTERY_DEVICE}"
+    return 0
+  fi
+
+  for dir in /sys/class/power_supply/BAT*; do
+    if [ -d "$dir" ]; then
+      printf '%s\n' "$dir"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+notify_low_battery() {
+  level="$1"
+
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send \
+      -a "$app_name" \
+      -u critical \
+      -i battery-caution \
+      "Battery low" \
+      "${level}% remaining"
+  fi
+}
+
+reset_state() {
+  rm -f "$state_file"
+}
+
+mark_notified() {
+  printf 'notified\n' > "$state_file"
+}
+
+already_notified() {
+  [ -r "$state_file" ] && [ "$(cat "$state_file")" = "notified" ]
+}
+
+while true; do
+  battery_path="$(find_battery 2>/dev/null || true)"
+
+  if [ -z "$battery_path" ]; then
+    reset_state
+    sleep "$interval"
+    continue
+  fi
+
+  if [ ! -r "$battery_path/capacity" ] || [ ! -r "$battery_path/status" ]; then
+    reset_state
+    sleep "$interval"
+    continue
+  fi
+
+  capacity="$(cat "$battery_path/capacity")"
+  status="$(cat "$battery_path/status")"
+
+  case "$status" in
+    Discharging)
+      if [ "$capacity" -le "$threshold" ]; then
+        if ! already_notified; then
+          notify_low_battery "$capacity"
+          mark_notified
+        fi
+      else
+        reset_state
+      fi
+      ;;
+    *)
+      reset_state
+      ;;
+  esac
+
+  sleep "$interval"
+done
