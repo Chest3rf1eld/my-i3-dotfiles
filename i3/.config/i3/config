@@ -80,6 +80,7 @@ default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders none
 for_window [class="(?i)Alacritty"] border pixel 2
+for_window [class="v2rayN"] floating enable, resize set 950 1020, move position center
 gaps inner 10
 gaps outer -5
 smart_gaps off

@@ -25,4 +25,4 @@ pgrep -x snixembed >/dev/null 2>&1 || snixembed --fork
 wait_for busctl --user status org.kde.StatusNotifierWatcher >/dev/null 2>&1
 
 # запускаем в любом случае: даже без трея прокси должен подняться
-exec /usr/bin/v2rayn
+exec /opt/v2rayn-bin/v2rayN
