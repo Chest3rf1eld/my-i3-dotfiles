@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+import json
+import os
+import subprocess
+import sys
+
+
+def main():
+    if len(sys.argv) < 2:
+        return
+    try:
+        payload = json.loads(sys.argv[1])
+    except json.JSONDecodeError:
+        return
+    if payload.get("type") != "agent-turn-complete":
+        return
+
+    cwd = payload.get("cwd") or os.getcwd()
+    dir_name = os.path.basename(cwd.rstrip("/")) or cwd
+
+    win = None
+    tmux_pane = os.environ.get("TMUX_PANE")
+    if tmux_pane:
+        try:
+            result = subprocess.run(
+                ["tmux", "display-message", "-t", tmux_pane, "-p", "#W"],
+                capture_output=True, text=True, timeout=2,
+            )
+            win = result.stdout.strip() or None
+        except (subprocess.SubprocessError, OSError):
+            win = None
+
+    label = f"{win}, {dir_name}" if win else dir_name
+    subprocess.run(
+        [
+            "notify-send", "-u", "normal", "-t", "0", "-a", "Codex", "Codex",
+            f"Agent finished work in {label}",
+        ],
+        check=False,
+    )
+
+
+if __name__ == "__main__":
+    main()

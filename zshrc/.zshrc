@@ -157,7 +157,7 @@ codex() {
     http_proxy=http://127.0.0.1:10808 \
     https_proxy=http://127.0.0.1:10808 \
     all_proxy=http://127.0.0.1:10808 \
-    command codex "$@"
+    command codex -c 'notify=["'"$HOME"'/.config/scripts/codex-notify-stop"]' "$@"
 }
 
 claude() {
