@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -n \"$TMUX\" ]; then label=$(tmux display-message -p '#W' 2>/dev/null); fi; label=${label:-$(basename \"$PWD\")}; notify-send -u critical -t 0 -a \"Claude Code\" \"Claude Code\" \"Agent finished work in $label\" 2>/dev/null || true"
+            "command": "dir=$(basename \"$PWD\"); if [ -n \"$TMUX\" ]; then win=$(tmux display-message -p '#W' 2>/dev/null); fi; label=${win:+$win, }$dir; notify-send -u critical -t 0 -a \"Claude Code\" \"Claude Code\" \"Agent finished work in $label\" 2>/dev/null || true"
           }
         ]
       }
