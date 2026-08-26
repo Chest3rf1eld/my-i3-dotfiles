@@ -1,6 +1,9 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { execFile } from "node:child_process";
-import { basename } from "node:path";
+import { basename, join } from "node:path";
+import { homedir } from "node:os";
+
+const NOTIFY_SCRIPT = join(homedir(), ".config/scripts/agent-notify-if-unfocused");
 
 function tmuxWindowName(pane: string): Promise<string | undefined> {
   return new Promise((resolve) => {
@@ -21,9 +24,6 @@ export default function (pi: ExtensionAPI) {
     const win = tmuxPane ? await tmuxWindowName(tmuxPane) : undefined;
     const label = win ? `${win}, ${dirName}` : dirName;
 
-    execFile("notify-send", [
-      "-u", "normal", "-t", "0", "-a", "pi", "pi",
-      `Agent finished work in ${label}`,
-    ], () => {});
+    execFile(NOTIFY_SCRIPT, ["pi", `Agent finished work in ${label}`], () => {});
   });
 }

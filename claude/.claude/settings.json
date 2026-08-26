@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "dir=$(basename \"$PWD\"); if [ -n \"$TMUX_PANE\" ]; then win=$(tmux display-message -t \"$TMUX_PANE\" -p '#W' 2>/dev/null); fi; label=${win:+$win, }$dir; notify-send -u normal -t 0 -a \"Claude Code\" \"Claude Code\" \"Agent finished work in $label\" 2>/dev/null || true"
+            "command": "dir=$(basename \"$PWD\"); if [ -n \"$TMUX_PANE\" ]; then win=$(tmux display-message -t \"$TMUX_PANE\" -p '#W' 2>/dev/null); fi; label=${win:+$win, }$dir; ~/.config/scripts/agent-notify-if-unfocused \"Claude Code\" \"Agent finished work in $label\" 2>/dev/null || true"
           }
         ]
       }

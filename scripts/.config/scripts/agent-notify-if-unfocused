@@ -1,0 +1,89 @@
+#!/usr/bin/env sh
+
+# Sends a desktop notification unless the currently focused window is
+# already showing one of the three coding-agent harnesses (claude, codex,
+# pi) - no point pinging you about a finished task you're already looking at.
+
+set -eu
+
+app_name="$1"
+message="$2"
+
+harness_pattern='^(claude|codex|pi)$'
+
+get_focused_pid() {
+  command -v xdotool >/dev/null 2>&1 || return 1
+  xdotool getactivewindow getwindowpid 2>/dev/null
+}
+
+# BFS from $1 down its descendants, printing the first real controlling tty found.
+find_tty() {
+  queue="$1"
+  while [ -n "$queue" ]; do
+    next=""
+    for p in $queue; do
+      t=$(ps -o tty= -p "$p" 2>/dev/null | tr -d ' ')
+      if [ -n "$t" ] && [ "$t" != "?" ]; then
+        printf '%s\n' "$t"
+        return 0
+      fi
+      next="$next $(pgrep -P "$p" 2>/dev/null || true)"
+    done
+    queue="$next"
+  done
+  return 1
+}
+
+# Is a harness the current foreground command of the tmux client attached on tty $1?
+harness_on_tmux_client_tty() {
+  tty_dev="/dev/$1"
+  command -v tmux >/dev/null 2>&1 || return 1
+
+  clients=$(mktemp)
+  tmux list-clients -F '#{client_tty} #{session_name}:#{window_index}.#{pane_index}' 2>/dev/null > "$clients" || {
+    rm -f "$clients"
+    return 1
+  }
+
+  found=1
+  while read -r ctty target; do
+    [ "$ctty" = "$tty_dev" ] || continue
+    cmd=$(tmux display-message -p -t "$target" '#{pane_current_command}' 2>/dev/null || true)
+    if printf '%s' "$cmd" | grep -Eq "$harness_pattern"; then
+      found=0
+      break
+    fi
+  done < "$clients"
+  rm -f "$clients"
+  return "$found"
+}
+
+# Is a harness a direct child of the focused window's process (non-tmux case)?
+harness_as_child_of() {
+  for child in $(pgrep -P "$1" 2>/dev/null || true); do
+    ccmd=$(ps -o comm= -p "$child" 2>/dev/null || true)
+    if printf '%s' "$ccmd" | grep -Eq "$harness_pattern"; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+should_suppress() {
+  pid=$(get_focused_pid) || return 1
+  [ -n "$pid" ] || return 1
+
+  tty=$(find_tty "$pid") || true
+  if [ -n "${tty:-}" ] && harness_on_tmux_client_tty "$tty"; then
+    return 0
+  fi
+
+  harness_as_child_of "$pid"
+}
+
+if should_suppress; then
+  exit 0
+fi
+
+command -v notify-send >/dev/null 2>&1 && notify-send -u normal -t 0 -a "$app_name" "$app_name" "$message"
+exit 0

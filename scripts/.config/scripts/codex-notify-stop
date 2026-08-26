@@ -31,11 +31,9 @@ def main():
             win = None
 
     label = f"{win}, {dir_name}" if win else dir_name
+    notify_script = os.path.expanduser("~/.config/scripts/agent-notify-if-unfocused")
     subprocess.run(
-        [
-            "notify-send", "-u", "normal", "-t", "0", "-a", "Codex", "Codex",
-            f"Agent finished work in {label}",
-        ],
+        [notify_script, "Codex", f"Agent finished work in {label}"],
         check=False,
     )
 
