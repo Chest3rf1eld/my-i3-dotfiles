@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Arch packages install Oh My Zsh system-wide.
-export ZSH="/usr/share/oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
@@ -91,7 +91,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Plugins and theme installed by Arch packages.
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+source "$ZSH/custom/themes/powerlevel10k/powerlevel10k.zsh-theme"
 
 # User configuration
 
