@@ -1,0 +1,16 @@
+{
+  "tui": "fullscreen",
+  "theme": "dark",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send -u critical -t 0 -a \"Claude Code\" \"Claude Code\" \"Agent finished work in $(basename \"$PWD\")\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

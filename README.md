@@ -50,6 +50,7 @@ That makes the repo compatible with [GNU Stow](https://www.gnu.org/software/stow
 - `systemd` — user services
 - `scripts` — utility scripts
 - `wallpapers` — wallpaper collection synced into `~/.local/share/wallpapers`
+- `claude` — Claude Code settings (incl. desktop notification hook via dunst)
 
 ## Installation
 
@@ -63,7 +64,7 @@ cd my-i3-dotfiles
 Deploy with GNU Stow:
 
 ```sh
-stow alacritty i3 picom polybar rofi scripts systemd tmux wallpapers zshrc
+stow alacritty claude i3 picom polybar rofi scripts systemd tmux wallpapers zshrc
 ```
 
 Or copy/symlink files manually if you do not use Stow.

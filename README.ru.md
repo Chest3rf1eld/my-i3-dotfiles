@@ -50,6 +50,7 @@
 - `systemd` — пользовательские сервисы
 - `scripts` — утилитарные скрипты
 - `wallpapers` — коллекция обоев, синхронизируемая в `~/.local/share/wallpapers`
+- `claude` — настройки Claude Code (в т.ч. хук уведомлений на рабочий стол через dunst)
 
 ## Установка
 
@@ -63,7 +64,7 @@ cd my-i3-dotfiles
 Разложить через GNU Stow:
 
 ```sh
-stow alacritty i3 picom polybar rofi scripts systemd tmux wallpapers zshrc
+stow alacritty claude i3 picom polybar rofi scripts systemd tmux wallpapers zshrc
 ```
 
 Либо разложить/засимлинковать файлы вручную.
