@@ -44,6 +44,7 @@
 - `polybar` — конфиг бара и вспомогательные скрипты
 - `picom` — конфиг композитора
 - `rofi` — конфиг лаунчера
+- `dunst` — конфиг демона уведомлений, оформлен в стиле палитры Ember
 - `alacritty` — конфиг терминала
 - `tmux` — конфиг tmux и TPM-плагины
 - `zshrc` — конфиг shell
@@ -64,7 +65,7 @@ cd my-i3-dotfiles
 Разложить через GNU Stow:
 
 ```sh
-stow alacritty claude i3 picom polybar rofi scripts systemd tmux wallpapers zshrc
+stow alacritty claude dunst i3 picom polybar rofi scripts systemd tmux wallpapers zshrc
 ```
 
 Либо разложить/засимлинковать файлы вручную.

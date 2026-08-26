@@ -44,6 +44,7 @@ That makes the repo compatible with [GNU Stow](https://www.gnu.org/software/stow
 - `polybar` — bar config and helper scripts
 - `picom` — compositor config
 - `rofi` — launcher config
+- `dunst` — notification daemon config, themed to match the Ember palette
 - `alacritty` — terminal config
 - `tmux` — tmux config and TPM plugins
 - `zshrc` — shell config
@@ -64,7 +65,7 @@ cd my-i3-dotfiles
 Deploy with GNU Stow:
 
 ```sh
-stow alacritty claude i3 picom polybar rofi scripts systemd tmux wallpapers zshrc
+stow alacritty claude dunst i3 picom polybar rofi scripts systemd tmux wallpapers zshrc
 ```
 
 Or copy/symlink files manually if you do not use Stow.
