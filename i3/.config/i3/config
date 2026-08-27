@@ -61,6 +61,7 @@ exec --no-startup-id ~/.config/scripts/v2rayn-autostart
 exec_always --no-startup-id ~/.config/scripts/wallpaper-rotation
 
 bindsym $mod+space exec rofi -show combi
+bindsym $mod+slash exec --no-startup-id ~/.config/scripts/keybindings-cheatsheet
 bindsym $mod+b exec firefox
 bindsym $mod+Shift+b exec firefox --new-window about:preferences#connectionSecurity
 bindsym $mod+c exec --no-startup-id qalculate-gtk

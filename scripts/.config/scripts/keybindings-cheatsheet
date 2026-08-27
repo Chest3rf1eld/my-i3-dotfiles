@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+"""Show a rofi cheatsheet of i3 keybindings, parsed live from the config."""
+import os
+import re
+import shutil
+import subprocess
+
+CONFIG = os.path.expanduser("~/.config/i3/config")
+
+SET_RE = re.compile(r'^set\s+(\$\w+)\s+(.*)$')
+MODE_START_RE = re.compile(r'^mode\s+(?:--pango_markup\s+)?"([^"]+)"\s*\{')
+BIND_RE = re.compile(r'^(bindsym|bindcode)\s+(\S+)\s+(.*)$')
+INLINE_COMMENT_RE = re.compile(r'^(.*?)\s+#\s*(.*)$')
+
+FRIENDLY_MODS = {
+    "Mod4": "Super",
+    "Mod1": "Alt",
+    "Mod5": "AltGr",
+    "Control": "Ctrl",
+}
+
+
+def substitute(text, variables):
+    for name, value in variables.items():
+        text = text.replace(name, value)
+    return text
+
+
+def friendly_keys(key):
+    parts = key.split("+")
+    return "+".join(FRIENDLY_MODS.get(p, p) for p in parts)
+
+
+def clean_action(action):
+    action = re.sub(r'^exec(\s+--no-startup-id)?\s+', '', action).strip()
+    return re.sub(r'\s+', ' ', action)
+
+
+def parse(path):
+    variables = {}
+    pending = []
+    prev_was_comment = False
+    current_mode = None
+    entries = []
+
+    with open(path, encoding="utf-8") as f:
+        for raw in f:
+            stripped = raw.strip()
+
+            if stripped == "":
+                pending = []
+                prev_was_comment = False
+                continue
+
+            if stripped.startswith("#"):
+                text = stripped.lstrip("#").strip()
+                if not prev_was_comment:
+                    pending = []
+                if text:
+                    pending.append(text)
+                prev_was_comment = True
+                continue
+
+            prev_was_comment = False
+
+            m = SET_RE.match(stripped)
+            if m:
+                variables[m.group(1)] = m.group(2).strip('"')
+                continue
+
+            m = MODE_START_RE.match(stripped)
+            if m:
+                current_mode = m.group(1)
+                continue
+
+            if stripped == "}":
+                current_mode = None
+                continue
+
+            m = BIND_RE.match(stripped)
+            if m:
+                _, key, rest = m.groups()
+
+                inline = INLINE_COMMENT_RE.match(rest)
+                if inline:
+                    action, comment = inline.groups()
+                else:
+                    action, comment = rest, None
+
+                key = friendly_keys(substitute(key, variables))
+                action = clean_action(substitute(action, variables))
+
+                text = comment.strip() if comment else " ".join(pending)
+                desc = f"{text} — {action}" if text else action
+
+                label = f"[{current_mode}] " if current_mode else ""
+                entries.append(f"{label}{key}  —  {desc}")
+                continue
+
+    return entries
+
+
+def main():
+    entries = parse(CONFIG)
+    listing = "\n".join(entries)
+
+    proc = subprocess.run(
+        ["rofi", "-dmenu", "-i", "-p", "Keybindings", "-no-custom"],
+        input=listing, capture_output=True, text=True,
+    )
+    selection = proc.stdout.strip()
+    if selection and shutil.which("xclip"):
+        subprocess.run(["xclip", "-selection", "clipboard"], input=selection, text=True)
+
+
+if __name__ == "__main__":
+    main()
