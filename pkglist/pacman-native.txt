@@ -26,6 +26,7 @@ containerd
 cups
 cups-pk-helper
 deno
+discord
 dmenu
 dnssec-anchors
 docker
@@ -46,6 +47,7 @@ fuse3
 fvm
 fzf
 galculator
+gammastep
 gendesk
 ghc-libs
 git
@@ -371,6 +373,7 @@ libvterm
 libwpd
 libwps
 libxcrypt-compat
+libxml2-legacy
 libxmlb
 libyuv
 libzmf
@@ -487,6 +490,8 @@ semver
 simdjson
 slop
 smartmontools
+snixembed
+sshpass
 stow
 sudo
 syncthing
@@ -522,6 +527,7 @@ ufw
 unibilium
 unzip
 usbutils
+uv
 v2ray
 v2ray-domain-list-community
 v2ray-geoip

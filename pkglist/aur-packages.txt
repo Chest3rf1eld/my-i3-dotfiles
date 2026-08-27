@@ -14,6 +14,7 @@ spotify
 ttf-meslo-nerd-font-powerlevel10k
 ttf-ms-fonts
 tuidoro-bin
+unityhub
 v2raya-bin
 v2rayn-bin
 visual-studio-code-bin
