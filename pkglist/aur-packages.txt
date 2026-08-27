@@ -4,6 +4,7 @@ greenclip
 gtk2
 haskell-semigroups
 haskell-wordexp
+i3lock-color
 ipscan-bin
 linphone-desktop-appimage
 litehtml0.9

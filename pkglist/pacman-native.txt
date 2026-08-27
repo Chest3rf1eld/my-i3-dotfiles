@@ -289,7 +289,6 @@ hunspell
 hwloc
 hyphen
 i3blocks
-i3lock
 i3status
 i3-wm
 imlib2
