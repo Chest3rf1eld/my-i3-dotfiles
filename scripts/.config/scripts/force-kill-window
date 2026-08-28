@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+pid="$(xdotool getactivewindow getwindowpid 2>/dev/null || true)"
+
+if [ -n "${pid}" ]; then
+  kill -9 "${pid}"
+else
+  i3-msg kill >/dev/null
+fi

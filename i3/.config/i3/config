@@ -97,7 +97,7 @@ mode "exit" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+Shift+q mode "exit"
+bindsym $mod+Shift+e mode "exit"
 
 bindsym Print exec --no-startup-id ~/.config/scripts/screenshot-full-copy-save
 
@@ -157,6 +157,9 @@ bindsym $mod+Return exec alacritty #i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+q exec --no-startup-id ~/.config/scripts/confirm-kill-window
+
+# force-kill focused window's process (SIGKILL, no confirmation)
+bindsym $mod+Shift+q exec --no-startup-id ~/.config/scripts/force-kill-window
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec --no-startup-id dmenu_run
