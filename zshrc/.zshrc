@@ -151,35 +151,5 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/nikchester
 
 codex() {
-    HTTP_PROXY=http://127.0.0.1:10808 \
-    HTTPS_PROXY=http://127.0.0.1:10808 \
-    ALL_PROXY=http://127.0.0.1:10808 \
-    http_proxy=http://127.0.0.1:10808 \
-    https_proxy=http://127.0.0.1:10808 \
-    all_proxy=http://127.0.0.1:10808 \
     command codex -c 'notify=["'"$HOME"'/.config/scripts/codex-notify-stop"]' "$@"
-}
-
-claude() {
-    HTTP_PROXY=http://127.0.0.1:10808 \
-    HTTPS_PROXY=http://127.0.0.1:10808 \
-    ALL_PROXY=http://127.0.0.1:10808 \
-    http_proxy=http://127.0.0.1:10808 \
-    https_proxy=http://127.0.0.1:10808 \
-    all_proxy=http://127.0.0.1:10808 \
-    command claude "$@"
-}
-
-pi() {
-    HTTP_PROXY=http://127.0.0.1:10808 \
-    HTTPS_PROXY=http://127.0.0.1:10808 \
-    ALL_PROXY=http://127.0.0.1:10808 \
-    WS_PROXY=http://127.0.0.1:10808 \
-    WSS_PROXY=http://127.0.0.1:10808 \
-    http_proxy=http://127.0.0.1:10808 \
-    https_proxy=http://127.0.0.1:10808 \
-    all_proxy=http://127.0.0.1:10808 \
-    ws_proxy=http://127.0.0.1:10808 \
-    wss_proxy=http://127.0.0.1:10808 \
-    command pi "$@"
 }
